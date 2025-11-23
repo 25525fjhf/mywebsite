@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>转盘抽奖</title>
+<style>
+    body {
+        text-align: center;
+        font-family: Arial;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    #wheel {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        border: 5px solid #444;
+        margin: 50px auto;
+        position: relative;
+        overflow: hidden;
+        transform: rotate(0deg);
+        transition: transform 4s ease-out;
+    }
+
+    .slice {
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        background: #FFD700;
+        transform-origin: 100% 100%;
+        border: 1px solid #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    #pointer {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid red;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 18px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<h2>🎯 转盘抽奖</h2>
+
+<div id="pointer"></div>
+
+<div id="wheel"></div>
+
+<button onclick="spin()">开始抽奖</button>
+
+<script>
+    // 你可以在这里修改内容
+    const content = ["一等奖", "二等奖", "三等奖", "谢谢参与", "再来一次", "特等奖"];
+
+    // 创建转盘
+    const wheel = document.getElementById("wheel");
+    const sliceAngle = 360 / content.length;
+
+    content.forEach((text, i) => {
+        const slice = document.createElement("div");
+        slice.className = "slice";
+        slice.style.transform = `rotate(${i * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
+        slice.innerHTML = `<div style="transform: skewY(${-(90 - sliceAngle)}deg);">${text}</div>`;
+        wheel.appendChild(slice);
+    });
+
+    let currentRotation = 0;
+
+    function spin() {
+        const randomAngle = Math.floor(Math.random() * 360) + 720; // 多转两圈更好看
+        currentRotation += randomAngle;
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
+    }
+</script>
+
+</body>
+</html>
